@@ -20,7 +20,7 @@ public class Main {
         //
         // simulate player from own terminal
         //
-        new Simulation().run();;        
+        new Simulation().run();        
 
         System.out.println(" Starting server on " + PORT + "...");
         
@@ -59,7 +59,7 @@ public class Main {
                     break;
                 }
                 
-                cmd.Input(inputLine);
+                cmd.Parse(inputLine);
                 
                 // Prompt
                 System.out.print("> ");
@@ -101,7 +101,7 @@ public class Main {
                         break;
                     }
                     
-                    cmd.Input(inputLine);
+                    cmd.Parse(inputLine);
                     
                     // Prompt
                     System.out.print("> ");

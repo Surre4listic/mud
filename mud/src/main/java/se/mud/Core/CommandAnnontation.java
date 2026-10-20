@@ -3,7 +3,7 @@ package se.mud.Core;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-// custom annotation for our commands and use this at runtime
+// custom annotation for our commands and run it at runtime
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandAnnontation {
     String[] commands();
