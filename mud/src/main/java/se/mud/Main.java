@@ -6,8 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
-import Core.CommandParser;
+import se.mud.Core.CommandParser;
 
 public class Main {
 
@@ -15,6 +16,12 @@ public class Main {
     private static final int PORT = 9999;
 
     public static void main(String[] args) {
+
+        //
+        // simulate player from own terminal
+        //
+        new Simulation().run();;        
+
         System.out.println(" Starting server on " + PORT + "...");
         
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -31,6 +38,38 @@ public class Main {
         }
     }
 
+    //
+    // simulate player from own terminal
+    //
+    private static class Simulation implements Runnable  {
+        private CommandParser cmd = new CommandParser();
+        Scanner s = new Scanner(System.in);
+        String inputLine;
+
+        @Override
+            public void run() {
+
+            System.out.println("Simulated player connection");
+
+            // Start loop
+            while ((inputLine = s.nextLine()) != null) {
+
+                if (inputLine.equalsIgnoreCase("exit")) {
+                    System.out.println("Exit!");
+                    break;
+                }
+                
+                cmd.Input(inputLine);
+                
+                // Prompt
+                System.out.print("> ");
+                System.out.flush();
+            }
+
+            s.close();
+        }
+    }
+
     // Handle communication from clients
     private static class ClientHandler implements Runnable {
         private final Socket socket;
@@ -40,6 +79,7 @@ public class Main {
 
         @Override
         public void run() {
+
             try (
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true)
@@ -51,8 +91,9 @@ public class Main {
                 out.println("> ");
                 out.flush();
 
-                // Start loop
+
                 String inputLine;
+                // Start loop
                 while ((inputLine = in.readLine()) != null) {
 
                     if (inputLine.equalsIgnoreCase("exit")) {
@@ -79,4 +120,6 @@ public class Main {
         }
 
     }
+
+
 }

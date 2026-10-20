@@ -1,4 +1,4 @@
-package Core;
+package se.mud.Core;
 
 public class CommandParser {
 
@@ -7,13 +7,10 @@ public class CommandParser {
     public void Input(String cmd) {
         System.out.println("Input recieved from client: " + cmd);
 
-        // split cmd into strings between whitespaces
-        String arrayTest[] = cmd.trim().split("\\s+");
-        for (String s : arrayTest) {
-            System.out.println(s);
-        }
+        // only check first word of input against our methods
 
         // check for method
+
 
     }
     
