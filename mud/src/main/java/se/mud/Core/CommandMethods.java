@@ -1,28 +1,37 @@
-package se.mud.Core;
-
-import java.util.HashMap;
-import java.lang.reflect.Method;
+package se.mud.core;
 
 public class CommandMethods {
 
-    public CommandMethods() {
+    Player player;
 
+    public CommandMethods(Player player) {
+        this.player = player;
         System.out.println("test");
-
-
     }
 
     @CommandAnnontation (commands={"help"}, desc="help")
-    private String help(String cmd) {
+    public String help(String input) {
+        Utl.debug("help recieved: " + input + ".");
         return "";
     }
 
     
-    @CommandAnnontation (commands={"move", "run"}, desc="help")
-    private String move(String cmd) {
+    @CommandAnnontation (commands={"move", "run"}, desc="move")
+    public String move(String input) {
+        Utl.debug("Move recieved: " + input + ".");
         return "";
     }
 
     
+    @CommandAnnontation (commands={"say", "speak"}, desc="Speak to anyone in the room.")
+    public String speach(String input) {
+        Utl.debug("speach recieved recieved: " + input + ".");
+        if (input != null && !input.isBlank()) {
+            Broadcast.room(player.getRoomID(), input, player);
+        } else {
+            
+        }
+        return "";
+    }
     
 }
