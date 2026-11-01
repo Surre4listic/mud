@@ -2,9 +2,14 @@ package se.mud.core;
 
 public class Utl {
 
-    // debug
+    // print text to console
+    public static void print(String text) {
+        System.out.println(text);
+    }
+
+    // debug text to console
     public static void debug(String text) {
-        System.out.println("\n  [DEBUG] " + text + "\n");
+        System.out.println("[DEBUG] " + text);
     }
 
     // capitalize first letter
@@ -15,6 +20,13 @@ public class Utl {
     // cut after certain char's
     public static void cut(String text) {
         
+    }
+
+    public static boolean equal(String compare1, String compare2) {
+        if (compare1 != null && compare2 != null && compare1.equalsIgnoreCase(compare2)) {
+            return true;
+        }
+        return false;
     }
 
     // add x amount of spaces minus text length after

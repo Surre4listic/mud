@@ -1,5 +1,7 @@
 package se.mud.core;
 
+import se.mud.Player;
+
 public class CommandMethods {
 
     Player player;
@@ -27,7 +29,7 @@ public class CommandMethods {
     public String speach(String input) {
         Utl.debug("speach recieved recieved: " + input + ".");
         if (input != null && !input.isBlank()) {
-            Broadcast.room(player.getRoomID(), input, player);
+
         } else {
             
         }
