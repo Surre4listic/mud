@@ -95,6 +95,14 @@ public class Player implements Runnable {
 
     // Placeholder method to handle player login with username and password
     public boolean login(String username, String password) {
+        /*
+        Compare passsword with database hash using BCrypt
+        if (BCrypt.checkpw(enteredPassword, storedHashFromDb)) {
+            return true; // Lösenordet är rätt!
+        } else {
+            return false; // Fel lösenord
+        }
+        */
         return true; // Username and password match in the database, login is successful
     }
 
