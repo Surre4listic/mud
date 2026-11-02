@@ -59,24 +59,26 @@ public class DatabaseConnection {
     }
 
     public Player loadPlayer(String playerName, String password) {
-        String query = "SELECT name, pass, hp, level, room_id FROM players WHERE name = ?";
+        String query = "SELECT username, password, experience, strength, dexterity, intelligence, room_id FROM players WHERE username = ?";
         
         // Get a connection from our singleton DatabaseConnection instance and prepare the SQL statement
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
-        
+
             PreparedStatement stmt = conn.prepareStatement(query)) {
             // Set the player name parameter in the SQL query
             stmt.setString(1, playerName);
             
             try (ResultSet rs = stmt.executeQuery()) {
                 // If a player is found and the password matches that hashed password
-                if (rs.next() && Utl.checkPassword(password, rs.getString("pass"))) {
+                if (rs.next() && Utl.checkPassword(password, rs.getString("password"))) {
                     // Retrieve player data from the result set
-                    int hp = rs.getInt("hp");
-                    int level = rs.getInt("level");
+                    int experience = rs.getInt("experience");
+                    int strength = rs.getInt("strength");
+                    int dexterity = rs.getInt("dexterity");
+                    int intelligence = rs.getInt("intelligence");
                     int roomId = rs.getInt("room_id");
                     // Create and return a new Player object with the retrieved data
-                    return new Player(playerName, hp, level, roomId);
+                    return new Player(playerName, experience, strength, dexterity, intelligence, roomId);
                 }
             }
         } catch (SQLException e) {

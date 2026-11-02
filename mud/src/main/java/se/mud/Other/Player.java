@@ -3,14 +3,18 @@ package se.mud.Other;
 public class Player {
 
     private String name;
-    private int hp;
-    private int level;
+    private int experience;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
     private int roomId;
 
-    public Player(String name, int hp, int level, int roomId) {
+    public Player(String name, int experience, int strength, int dexterity, int intelligence, int roomId) {
         this.name = name;
-        this.hp = hp;
-        this.level = level;
+        this.experience = experience;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
         this.roomId = roomId;
     }
 
@@ -18,12 +22,24 @@ public class Player {
         return name;
     }
 
-    public int getHp() {
-        return hp;
+    public int getExperience() {
+        return experience;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
     }
 
     public int getLevel() {
-        return level;
+        return experience / 100; // Better calculation later, for now, 100 exp = 1 level
     }
 
     public int getRoomId() {

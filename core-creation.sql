@@ -8,8 +8,9 @@ CREATE TABLE players (
     ID int PRIMARY KEY,
     username varchar(25) NOT NULL,
     password varchar(60) NOT NULL,
-    exeperience int NOT NULL,
+    experience int NOT NULL,
     strength int NOT NULL,
     dexterity int NOT NULL,
-    intelligence int NOT NULL
+    intelligence int NOT NULL,
+    room_id int NOT NULL
 );
