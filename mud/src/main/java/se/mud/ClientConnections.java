@@ -9,8 +9,8 @@ import java.io.IOException;         // For handling IO exceptions
 import java.io.InputStreamReader;   // For reading input from the player
 import java.io.PrintWriter;         // For sending messages to the player
 import java.net.Socket;             // Represents the player's connection to the server
-import java.sql.Connection;
 
+import se.mud.Other.Player;
 import se.mud.Other.CommandParser;
 import se.mud.Other.Utl;
 
@@ -20,14 +20,14 @@ public class ClientConnections implements Runnable {
     private BufferedReader in;
     private String name;
     private CommandParser commandParser;
-    private Connection connection;
-    private boolean loggedIn = false;
+    private Player player;
 
     // Constructor initializes the player with their socket connection
     public ClientConnections(Socket socket) {
         this.socket = socket;
     }
 
+    // The main run method for the player thread, handling login and command processing
     @Override
     public void run() {
         try {
@@ -35,46 +35,45 @@ public class ClientConnections implements Runnable {
             out = new PrintWriter(socket.getOutputStream(), true);  // Our output stream to the player
             in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // Our input stream from the player
 
-            // Welcome message and prompt for character name
-            out.println("Welcome to just another MUD!");
+            // Welcome the player and prompt for login or character creation, return player
+            out.println("Welcome to just another MUD");
 
-            // Todo: Check database comparison for player existence
-            // Login loop to ensure the player is authenticated before proceeding
-            do {
-                out.println("Please enter your character name or type 'new' to create a new character:");
+            // Loop through until we have ourself a player
+            while (player == null) {
+                out.println("Enter your character name or write 'new' to create one.");
                 String input = in.readLine();
-                // Check if the player wants to create a new character or log in with an existing one
+                // If input is new, start creating a new character
                 if (Utl.equal(input, "new")) {
-                    // Handle new character creation
-                    out.println("Creating a new character. Please follow the prompts.");
-                    if (createCharacter()) {
-                        loggedIn = true;
-                    }
+                    // Save name to input
+                    out.println("Please choose a name: ");
+                    input = in.readLine();
+                    // Call playerCreate with input and the next input
+                    out.println("Please choose a password: ");
+                    player = DatabaseHandler.getInstance().playerCreate(input, in.readLine());
+                    out.println("Welcome to the world " + player.getName() + "!");
                 } else {
-                    // Check if the player exists in the database
-                    if (playerExists(input)) {
-                        // Prompt for password and validate login
-                        out.println("Please enter your password:");
-                        while (!login(input, in.readLine())) {
-                            out.println("Invalid password. Please try again.");
-                        }
-                        loggedIn = true;
+                    // We have recieved name and will call playerLogin with next input and save to player
+                    out.println("Please input your password: ");
+                    player = DatabaseHandler.getInstance().playerLogin(input, in.readLine());
+
+                    // Could not find player, player is still null loop will continue
+                    if (player == null) {
+                        out.println("Incorrect name or password!");
+                    // Player has been set so loop will end
                     } else {
-                        out.println("Character not found. Please try again or type 'new' to create a new character.");
+                        out.println("Welcome back " + player.getName() + "!");
                     }
                 }
+            }
 
-            } while (!loggedIn);
-
-            GameEngine.registerPlayer(this); // Register the player to the world
-            commandParser = new CommandParser(this); // Initialize the command parser for this player
-
-            out.println("Welcome, " + name + "! You are now logged in.");
+            // Register the player to the world
+            GameEngine.registerPlayer(this);
+            // Initialize the command parser for this player
+            commandParser = new CommandParser(this);
 
             // Input loop to continuously read commands from the player
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                inputLine = inputLine.trim();
                 if (inputLine.equalsIgnoreCase("quit")) {
                     out.println("Goodbye!");
                     break;
@@ -100,9 +99,6 @@ public class ClientConnections implements Runnable {
     }
 
     public boolean createCharacter() {
-        // Hash the password using BCrypt
-        // String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        // Store the username and hashed password in the database
         return true; // Return true if character creation is successful 
     }
 
@@ -124,4 +120,6 @@ public class ClientConnections implements Runnable {
             System.err.println("Error closing socket for " + name + ": " + e.getMessage());
         }
     }
+
+
 }

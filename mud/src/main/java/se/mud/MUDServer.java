@@ -20,8 +20,8 @@ public class MUDServer {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
 
             // Initialize the database
-            // Todo: Uncomment this when the database creation is complete
-
+            DatabaseCreation.Check();
+            
             // Continuously accept new client connections
             while (true) {
                 Socket clientSocket = serverSocket.accept();
