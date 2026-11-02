@@ -1,10 +1,10 @@
-package se.mud.core;
+package se.mud.Other;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import se.mud.Player;
+import se.mud.ClientConnections;
 
 public class CommandParser {
 
@@ -13,7 +13,7 @@ public class CommandParser {
     // Create an instance of CommandMethods to invoke methods on
     CommandMethods commandMethods;
 
-    public CommandParser(Player player) {
+    public CommandParser(ClientConnections player) {
 
         // Initialize CommandMethods with the player instance
         commandMethods = new CommandMethods(player);

@@ -1,4 +1,4 @@
-package se.mud.core;
+package se.mud.Other;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

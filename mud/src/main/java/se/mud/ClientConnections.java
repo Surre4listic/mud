@@ -9,21 +9,22 @@ import java.io.IOException;         // For handling IO exceptions
 import java.io.InputStreamReader;   // For reading input from the player
 import java.io.PrintWriter;         // For sending messages to the player
 import java.net.Socket;             // Represents the player's connection to the server
-import se.mud.core.CommandParser;   // For parsing player commands
-import se.mud.core.Utl;
+import java.sql.Connection;
 
-import org.mindrot.jbcrypt.BCrypt;  // For password hashing and verification
+import se.mud.Other.CommandParser;
+import se.mud.Other.Utl;
 
-public class Player implements Runnable {
+public class ClientConnections implements Runnable {
     private final Socket socket;
     private PrintWriter out;
     private BufferedReader in;
     private String name;
     private CommandParser commandParser;
+    private Connection connection;
     private boolean loggedIn = false;
 
     // Constructor initializes the player with their socket connection
-    public Player(Socket socket) {
+    public ClientConnections(Socket socket) {
         this.socket = socket;
     }
 
@@ -95,14 +96,6 @@ public class Player implements Runnable {
 
     // Placeholder method to handle player login with username and password
     public boolean login(String username, String password) {
-        /*
-        Compare passsword with database hash using BCrypt
-        if (BCrypt.checkpw(enteredPassword, storedHashFromDb)) {
-            return true; // Lösenordet är rätt!
-        } else {
-            return false; // Fel lösenord
-        }
-        */
         return true; // Username and password match in the database, login is successful
     }
 

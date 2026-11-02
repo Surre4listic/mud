@@ -1,27 +1,30 @@
-package se.mud.core;
+package se.mud.Other;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Utl {
 
-    // print text to console
+    // Print text to console
     public static void print(String text) {
         System.out.println(text);
     }
 
-    // debug text to console
+    // Debug text to console
     public static void debug(String text) {
         System.out.println("[DEBUG] " + text);
     }
 
-    // capitalize first letter
+    // Capitalize first letter
     public static void cap(String text) {
 
     }
 
-    // cut after certain char's
+    // Cut after certain char's
     public static void cut(String text) {
         
     }
 
+    // Compare two strings, ignoring case
     public static boolean equal(String compare1, String compare2) {
         if (compare1 != null && compare2 != null && compare1.equalsIgnoreCase(compare2)) {
             return true;
@@ -29,9 +32,26 @@ public class Utl {
         return false;
     }
 
-    // add x amount of spaces minus text length after
+    // Add x amount of spaces minus text length after
     public static String whitespace(String text, int space) {
         return text + " ".repeat(space - text.length());
+    }
+
+    // Hash a password using BCrypt
+    public static String hashPassword(String password) {
+        // 12 takes about 100-200ms to compute, which is a good balance between security and performance
+        return BCrypt.hashpw(password, BCrypt.gensalt(12));
+    }
+
+    // Check a password against a hashed password
+    public static boolean checkPassword(String password, String hashedPassword){
+        try {
+            // Bcrypt handles the comparison between the plain text password and the hashed password from the database
+            return BCrypt.checkpw(password, hashedPassword);
+        } catch (IllegalArgumentException e) {
+            // This exception is thrown if the hashed password is not a valid BCrypt hash
+            return false;
+        }
     }
 
 

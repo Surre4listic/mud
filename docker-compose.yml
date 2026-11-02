@@ -6,7 +6,7 @@ services:
     container_name: mud
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: database
+      MYSQL_DATABASE: mud
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: dbpass
     ports:

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import se.mud.core.Utl;
+import se.mud.Other.Utl;
 
 public class MUDServer {
     private static final int PORT = 4000;
@@ -18,11 +18,15 @@ public class MUDServer {
         Utl.print("Starting MUD on port " + PORT + "...");
         // Start the server socket and listen for incoming connections
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+
+            // Initialize the database
+            // Todo: Uncomment this when the database creation is complete
+
+            // Continuously accept new client connections
             while (true) {
-                // Stops here until a new client connection is received
                 Socket clientSocket = serverSocket.accept();
                 // Instantiate a new player thread for each connection
-                Player player = new Player(clientSocket);
+                ClientConnections player = new ClientConnections(clientSocket);
                 new Thread(player).start();
             }
         } catch (IOException e) {

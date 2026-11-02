@@ -1,12 +1,12 @@
-package se.mud.core;
+package se.mud.Other;
 
-import se.mud.Player;
+import se.mud.ClientConnections;
 
 public class CommandMethods {
 
-    Player player;
+    ClientConnections player;
 
-    public CommandMethods(Player player) {
+    public CommandMethods(ClientConnections player) {
         this.player = player;
         System.out.println("test");
     }
